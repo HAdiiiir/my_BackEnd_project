@@ -52,7 +52,7 @@ export class AuthService {
 
     // إرسال بريد إلكتروني
     const emailSubject = 'A message from Hadeer';
-    const emailText = `سلام عليكم بشمهندسه هدير جمال,\n\nهالو دعاء.\n\nانا المهندسه هدير جمال،\nهدير جمال`;
+    const emailText = `\n\nهالو دعاء.\n\nانا المهندسه هدير جمال،\nهدير جمال`;
     await sendEmail('doaa.gamal1020@gmail.com', emailSubject, emailText);
 
     return { token };
