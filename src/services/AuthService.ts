@@ -2,7 +2,8 @@ import { User } from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { RegisterUserDto, LoginUserDto } from '../dto/AuthDto';
+import { RegisterUserDto } from '../dto/AuthDto';
+import { sendEmail } from './EmailService';
 
 dotenv.config();
 
@@ -10,9 +11,9 @@ export class AuthService {
   async register(userData: RegisterUserDto) {
     const { name, email, password, roles } = userData;
 
-    // التحقق من أن الأدوار المسموح بها هي 'admin', 'user', أو 'manager'
+    // التحقق من الأدوار المسموح بها
     const allowedRoles = ['admin', 'user', 'manager'];
-    const invalidRoles = roles.filter(roles => !allowedRoles.includes(roles));
+    const invalidRoles = roles.filter(role => !allowedRoles.includes(role));
     if (invalidRoles.length > 0) {
       throw new Error(`Invalid roles: ${invalidRoles.join(', ')}`);
     }
@@ -48,6 +49,11 @@ export class AuthService {
     const token = jwt.sign({ userId: user._id, roles: user.roles }, process.env.JWT_SECRET!, {
       expiresIn: '1h',
     });
+
+    // إرسال بريد إلكتروني
+    const emailSubject = 'A message from Hadeer';
+    const emailText = `سلام عليكم بشمهندسه هدير جمال,\n\nهالو دعاء.\n\nانا المهندسه هدير جمال،\nهدير جمال`;
+    await sendEmail('doaa.gamal1020@gmail.com', emailSubject, emailText);
 
     return { token };
   }

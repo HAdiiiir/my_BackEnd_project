@@ -1,23 +1,24 @@
 import { JsonController, Get, UseBefore } from 'routing-controllers';
+import { authMiddleware } from '../middlewares/authMiddleware';
 import { checkRole } from '../middlewares/roleMiddleware';
 
 @JsonController('/protected')
 export class ProtectedController {
   @Get('/admin')
-  @UseBefore(checkRole(['admin']))
-  adminOnly() {
+  @UseBefore(authMiddleware, checkRole(['admin']))
+  adminOnly(req: Request) {
     return { message: 'Welcome, Admin!' };
   }
 
   @Get('/manager')
-  @UseBefore(checkRole(['manager']))
-  managerOnly() {
-    return { message: 'Welcome, Manager!' };
+  @UseBefore(authMiddleware, checkRole(['manager']))
+  managerOnly(req: Request) {
+    return { message: 'Welcome, Manager!'};
   }
 
   @Get('/user')
-  @UseBefore(checkRole(['user']))
-  userOnly() {
-    return { message: 'Welcome, User!' };
+  @UseBefore(authMiddleware, checkRole(['user']))
+  userOnly(req: Request) {
+    return { message: 'Welcome, User!'};
   }
 }

@@ -9,6 +9,7 @@ import { AuthController } from './controllers/AuthController';
 import { ProtectedController } from './controllers/ProtectedController';
 import { errorHandler } from './middlewares/errorMiddleware';
 import { notFoundHandler } from './middlewares/notFoundMiddleware';
+import { authMiddleware } from './middlewares/authMiddleware';
 
 dotenv.config();
 
